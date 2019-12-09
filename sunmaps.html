@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Display buildings in 3D</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+<style>
+    body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; };
+</style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoidmlja2ltbyIsImEiOiJjamdrczdkbnQwbGN4MzByd2lxaDU1ZjE2In0.jAs5IO5vAK4PSWZ-tSJHIQ';
+var map = new mapboxgl.Map({
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [2.321230990799024, 48.883737843553725],
+    // center: [48.8595, 2.2666],
+    // center: [-74.0066, 40.7135],
+    zoom: 20,
+    pitch: 0,
+    bearing: 0,
+    container: 'map',
+    antialias: true
+});
+
+// The 'building' layer in the mapbox-streets vector source contains building-height
+// data from OpenStreetMap.
+map.on('load', function() {
+    // Insert the layer beneath any symbol layer.
+    var layers = map.getStyle().layers;
+    // debugger;
+
+    var labelLayerId;
+    for (var i = 0; i < layers.length; i++) {
+        if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+            labelLayerId = layers[i].id;
+            break;
+        }
+    }
+
+
+    let shadows = [[48.88381427520109, 2.321178545581766], [48.88373897802795, 2.3212136577637543], [48.883730455897584, 2.321173036809041], [48.88372300873695, 2.321137541426302], [48.88371977087887, 2.3211221090095404], [48.88371155649183, 2.3210829513523463], [48.88376889052694, 2.321055796887271], [48.88378618270444, 2.3210479936573574], [48.88381427520109, 2.321178545581766]].map(shadow => [shadow[1], shadow[0]])
+
+
+    let building = [[2.321230990799024, 48.883737843553725], [2.32126610290205, 48.883662546380585], [2.3212254819384, 48.88365402425022], [2.321189986547851, 48.883646577089586], [2.321174554127694, 48.883643339231504], [2.321135396461886, 48.88363512484447], [2.321108242056935, 48.88369245887957], [2.3211004388451553, 48.883709751057076], [2.321230990799024, 48.883737843553725]]
+
+     map.addLayer({
+        'id': 'bati',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [building]
+                }
+            }
+        },
+        'layout': {},
+        'paint': {
+            'fill-color': '#060',
+            'fill-opacity': 0.8
+        }
+    });
+
+    map.addLayer({
+        'id': 'shadow',
+        'type': 'fill',
+        'source': {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [shadows]
+                }
+            }
+        },
+        'layout': {},
+        'paint': {
+            'fill-color': '#088',
+            'fill-opacity': 0.8
+        }
+    });
+
+
+    map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+
+            // use an 'interpolate' expression to add a smooth transition effect to the
+            // buildings as the user zooms in
+            'fill-extrusion-height': [
+                "interpolate", ["linear"], ["zoom"],
+                15, 0,
+                15.05, ["get", "height"]
+            ],
+            'fill-extrusion-base': [
+                "interpolate", ["linear"], ["zoom"],
+                15, 0,
+                15.05, ["get", "min_height"]
+            ],
+            'fill-extrusion-opacity': .6
+        }
+    }, labelLayerId);
+});
+</script>
+
+</body>
+</html>
