@@ -1,0 +1,183 @@
+html, body, #map { 
+  height: 100%;
+  overflow:hidden;
+}
+html, body {
+  margin:0;
+  padding:0;
+  font-family: 'Inconsolata', monospace;
+}
+#dark-map {
+  height:0%;
+}
+
+.map-overlay {
+    position: absolute;
+    width: 360px;
+    height: 260px;
+    top: 10px;
+    left: 10px;
+}
+.container {
+  position:absolute;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  opacity:95%;
+}
+
+#weather-icon, #settime, #setday {
+    text-align: center;
+    vertical-align: middle;
+    display:table-cell;
+}
+#settime, #setday {
+  cursor: pointer;
+}
+#weather-icon img {
+  width: 80px;
+}
+#sun-times, #weather-info {
+  text-align: left;
+  display:table-cell;
+  vertical-align: middle;
+}
+
+#sunrise_image, #sunset_image, #highsun_image, #rain_image, #temperature_image,
+#sunrise_image img, #sunset_image img, #highsun_image img, #temperature_image img,
+#rain_image img {
+  float:left;
+}
+#sunrise_image img, #sunset_image img, #highsun_image img {
+  width:25px;
+}
+#temperature_image img {
+  height:20px;
+  padding-left:10px;
+}
+#rain_image img {
+  height: 15px;
+  padding-top: 5px;
+}
+#sunrise, #sunset, #high_sun_time, #weather-rain {
+  text-align: left;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+#top10link {
+    text-align: center;
+    display:table-cell;
+    vertical-align: middle;
+}
+
+#geocoder {
+  float:left;
+  padding-left: 5%;
+}
+#geolocate {
+  float:left;
+  display:block;
+  width:30px;
+}
+
+.five {
+  width:5%;
+}
+.twentyfive {
+  width:25%;
+}
+.thirty {
+  width: 30%;
+}
+.thirtythree {
+  width:33%;
+}
+.fifty {
+  width:50%;
+}
+.seventy {
+  width: 70%;
+}
+.eighty {
+  width:80%;
+}
+
+#row1-3 {
+  height:33.3%;
+  display:table;
+  width:100%;
+}
+#row1-6 {
+  height:16.7%;
+  display:table;
+  width:100%;
+}
+#row1-4 {
+  height:25%;
+  display:table;
+  width:100%;
+}
+#row1-8 {
+  height:12.5%;
+  display:table;
+  width:100%;
+}
+
+/* Sun slider, Chrome & Firefox */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    #time {
+      -webkit-appearance: none;
+      background-color: #fcd33b;
+      cursor: pointer;
+      width: 100%;
+      top:8.3%;
+      position:absolute;
+      left:-0.5%; /*correct the track depassing the box*/
+      height:1.5px; /* height of track */
+    }
+    #time:focus {
+       outline: none;
+    }
+
+    #time::-moz-focus-outer {
+        border: 0;
+        }
+
+    #time::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-image: url(../svg/sun_filled_yellow.svg);
+      background-size:35px;
+      height: 35px;
+      width: 35px;
+      outline: none;
+      outline-style:none;
+      box-shadow:none;
+      border-color:transparent;
+    }
+
+    #time::-moz-range-thumb {
+      height: 35px;
+      width: 35px;
+      -moz-appearance: none;
+      cursor: pointer;
+      background-color: #fcd33b;
+      mask-size:35px;
+      mask-position:bottom;
+      mask-image: url(../svg/sun_filled_yellow.svg);
+      outline: none;
+      outline-style:none;
+      box-shadow:none;
+      border-color:transparent;
+    }
+    
+    #time::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+      padding-top:2px; /* chrome middle aligns the yellow sun */
+      color: #fcd33b;
+    }
+}
+/* Sun slider, IE */
+input[type="range"]::-ms-fill-lower, input[type="range"]::-ms-fill-upper {
+  background-color: #fcd33b; 
+}
