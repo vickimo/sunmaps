@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Follow the sun!</title>
+    <meta charset='utf-8'>
+    <meta name="apple-mobile-web-app-capable" content="yes">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- external stylesheets -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500&display=swap" rel="stylesheet"> 
+    <!-- homemade stylesheet -->
+    <link rel="stylesheet" href="css/sunmaps.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+    <!-- end stylesheets -->
+
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <!-- end favicons -->
+</head>
+
+<body>
+<div id='map'></div>
+<div id='dark-map' style='height:100%;'></div>
+<div class="map-overlay-desktop">
+    <div class="container">
+        <div class="row row1-6">
+            <div class="range">
+                <input class='time' type='range' min="0" max="0" />
+            </div>
+        </div>
+        <div class="row row1-8">
+            <div class="fifty setday"></div>
+            <div class="fifty settime"></div>
+        </div>
+        <div class="row row3-8">
+            <div class="twentyfive weather-icon">
+                <img src=''>
+            </div>
+            <div class="thirtythree" id="weather-info">
+                <div class="row row1-8"></div>
+                <div class="row row1-4">
+                    <span class="weather-description" class="seventy"></span>
+                </div>
+                <div class="row row1-4">
+                    <div class="temperature_image thirty"><img src="svg/thermometer.svg" title="temperature"></div>
+                    <span class="weather-temp seventy"></span>
+                </div>
+                <div class="row row1-4">
+                    <div class="rain_image thirty"><img src="svg/clouds.svg" title="cloudy percentage"></div>
+                    <span class="weather-rain seventy"></span>
+                </div>
+                <div class="row row1-8"></div>
+            </div>
+            <div class="thirtythree" id="sun-times">
+                <div class="row row1-8"></div>
+                <div class="row row1-4">
+                    <div id="sunrise_image" class="thirty"><img src="svg/sunrise_arrow.svg" title="sunrise"></div>
+                    <span class="sunrise seventy"></span>
+                </div>
+                <div class="row row1-4">
+                    <div id="sunset_image" class="thirty"><img src="svg/sunset_arrow.svg" title="sunset"></div>
+                    <span class="sunset seventy"></span>
+                </div>
+                <div class="row row1-4">
+                    <div id="highsun_image" class="thirty"><img src="svg/high_sun.svg" title="high sun"></div>
+                    <span class="high_sun_time seventy"></span>
+                </div>
+                <div class="row row1-8"></div>
+            </div>
+        </div>
+        <div class="row row1-6"><div id="top10link" class="top10" title="Coming Soon!">Top 10 Terrasses Ensoleillées -> </div></div>
+        <div class="row row1-6">
+            <div class="eighty geocoder"></div>
+            <div class="geolocate"></div>
+        </div>
+    </div>
+</div>
+<div class="map-overlay-mobile">
+    <div class="container">
+        <div class="row row1-2">
+            <div class="range">
+                <input class='time' type='range' min="0" max="0" />
+            </div>
+            <span class="settime"></span><!-- <span class="setday-mobile"></span> -->
+        </div>
+        <div class="row row1-2">
+            <div class="mobile-nav">
+                <div class="twentyfive weather-icon"><img src=''></div>
+                <div class="twentyfive nav-sunset"><img src="svg/sunset_arrow.svg"></div>
+                <div class="twentyfive top10" title="Coming Soon!">TOP 10</div>
+                <div class="twentyfive search"><img src='svg/search.svg'></div>
+            </div>
+
+            <div class="mobile-weather">
+                <div class="twentyfive weather-icon"><img src=''></div>
+                <div class="twentyfive weather-description">cloudy</div>
+                <div class="twentyfive temperature_image_mobile"><img src="svg/thermometer.svg" title="temperature"><span class="weather-temp"></span></div>
+                <div class="twentyfive rain_image_mobile"><img src="svg/clouds.svg" title="cloudy percentage"><span class="weather-rain"></span></div>
+            </div>
+
+            <div class="mobile-sun">
+                <div class="thirtythree mobile-sunrise">
+                    <img src='svg/sunrise_arrow.svg'>
+                    <span>  sunrise:<br>&nbsp;&nbsp;</span>
+                    <span class="sunrise"></span>
+                </div>
+                <div class="thirtythree mobile-high_sun">
+                    <img src="svg/high_sun.svg">
+                    <span>  high sun:<br>&nbsp;&nbsp;</span>
+                    <span class="high_sun_time"></span>
+                </div>
+                <div class="thirtythree mobile-sunset">
+                    <img src="svg/sunset_arrow.svg">
+                    <span>  sunset:<br>&nbsp;&nbsp;</span>
+                    <span class="sunset"></span>
+                </div>
+            </div>
+
+            <div class="mobile-search">
+                <div class="geocoder"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="state-legend" class="legend">
+    <div><span style="background-color: #CA278C"></span>Terrasse</div>
+    <div><span style="background-color: #088"></span>Commerce</div>
+</div>
+</body>
+
+<!-- external scripts -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js'></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src='https://unpkg.com/suncalc@1.8.0/suncalc.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<!-- end external scripts -->
+
+<!-- homemade scripts -->
+<script src="API_keys/mapbox_api_key.js"></script>
+<script src="js/Layers.js"></script>
+<script src="js/BuildingShadows.js"></script>
+<script src="js/Weather.js"></script>
+<script src="js/Suntimes.js"></script>
+<script src="js/Polygons.js"></script>
+<script src="js/Runtime.js"></script> <!-- must come last -->
+<!-- end homemade scripts -->
+
+</html>

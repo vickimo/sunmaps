@@ -1,0 +1,99 @@
+@media (max-width: 640px) {
+    img, .close, .mobile-sun, .mobile-weather, .setday-mobile {
+        cursor:pointer;
+    }
+    .map-overlay-mobile {
+        position: absolute;
+        height: 100px;
+        width:100%;
+        left:50%;
+        top:50px;
+        transform: translate(-50%, -50%);
+    }
+    .container {
+        background-color: white;
+        opacity:90%;
+    }
+    .row1-2 {
+        height:50%;
+        display:table;
+    }
+    .mobile-sun, .mobile-nav, .mobile-weather {
+        width:100%;
+        display:table;
+    }
+
+    .range {
+        width:75%;
+        display:table-cell;
+    }
+    .time {
+        width: 69%;
+        left: 3%;
+        top: 21%;
+    }
+    .time::-webkit-slider-runnable-track {
+        padding-top:0px;
+    }
+    .settime {
+        text-align: center;
+    }
+    .setday-mobile {
+        text-align: left;
+        vertical-align: middle;
+        display:table-cell;
+    }
+    .weather-icon img {
+      width: 50px;
+    }
+    .temperature_image_mobile img {
+        height:25px;
+        padding-right:5px;
+    }
+    .rain_image_mobile img {
+      height: 20px;
+      padding-right:8px;
+    }
+    .mobile-sunset img, .nav-sunset img, .temperature_image_mobile img, .rain_image_mobile img{
+        width:25px;
+        vertical-align: middle;
+    }
+    .mobile-high_sun img {
+        width:24px;
+        vertical-align: middle;
+    }
+    .mobile-sunrise img {
+        width:30px;
+        vertical-align: middle;
+    }
+    .search img {
+        width:20px;
+    }
+    .geocoder {
+        width:100%;
+        padding:0%;
+        position: absolute;
+        top: 53px;
+    }
+    .mapboxgl-ctrl-geocoder--button {
+        display:block !important;
+    }
+    .mapboxgl-ctrl button:not(:disabled):hover {
+        background-color: rgba(0,0,0,0);
+    }
+    .map-overlay-desktop, .mobile-weather, .mobile-sun, .mobile-search {
+        display:none;
+    }
+    .twentyfive, .thirty, .thirtythree, .fifty, .seventy, .eighty {
+        text-align: center;
+    }
+}
+
+@media (min-width: 640px) {
+    .map-overlay-mobile {
+        display:none;
+    }
+    .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-geolocate {
+        display:none;
+    }
+}
