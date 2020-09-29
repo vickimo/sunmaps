@@ -3,7 +3,7 @@ var threed_buildings_layer = {
     'source': 'composite',
     'source-layer': 'building',
     'type': 'fill-extrusion',
-    'minzoom': 15.5,
+    'minzoom': 15,
     'paint': {
         'fill-extrusion-color': '#f0ebf4',
         'fill-extrusion-height': ["number", ["get", "height"], 5], // ["number", value, fallback_value]

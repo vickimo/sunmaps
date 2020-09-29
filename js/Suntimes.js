@@ -1,11 +1,12 @@
 var map_elem = document.getElementById('map');
-var timeInput = $('#time');
+var timeInput = $('.time');
 var solarNoonInput = $('#solarNoonInput');
-var currentMapTime_elem = $("#settime");
-var currentMapDay_elem = $("#setday");
-var sunriseTime_elem = $("#sunrise");
-var sunsetTime_elem = $("#sunset");
-var highSun_elem = $("#high_sun_time");
+var currentMapTime_elem = $(".settime");
+var currentMapDay_elem = $(".setday");
+var currentMapDayMobile_elem = $(".setday-mobile");
+var sunriseTime_elem = $(".sunrise");
+var sunsetTime_elem = $(".sunset");
+var highSun_elem = $(".high_sun_time");
 
 function setSun(map, date, lat, longit) {
     var sunTimes = SunCalc.getTimes(date, lat, longit);
@@ -17,9 +18,9 @@ function setSun(map, date, lat, longit) {
     timeInput.attr('max', toSeconds(sunset));
     solarNoonInput.attr('max', toSeconds(sunset));
     solarNoonInput.val(toSeconds(solarNoon));
-    sunriseTime_elem.text(toHHMM(sunrise.getHours(), sunrise.getMinutes()));
-    sunsetTime_elem.text(toHHMM(sunset.getHours(), sunset.getMinutes()));
-    highSun_elem.text(toHHMM(solarNoon.getHours(), solarNoon.getMinutes()))
+    sunriseTime_elem.text(toHHMM(toParisHour(date,sunrise.getHours()), sunrise.getMinutes()));
+    sunsetTime_elem.text(toHHMM(toParisHour(date,sunset.getHours()), sunset.getMinutes()));
+    highSun_elem.text(toHHMM(toParisHour(date,solarNoon.getHours()), solarNoon.getMinutes()))
 };
 
 function setMapTime(map, dark_map, date, time) {
@@ -33,7 +34,7 @@ function setMapTime(map, dark_map, date, time) {
     };
 };
 
-function setSelectedTime(date, time) {
+function setSelectedTime(date, time) { // time is the time input
     timeInput.val(time);
     var hours = Math.floor(time / 60 / 60);
     var minutes = Math.floor(time / 60) % 60;
@@ -42,12 +43,15 @@ function setSelectedTime(date, time) {
     date.setMinutes(minutes);
     date.setSeconds(seconds);
     current_date = new Date();
-    if (current_date.getHours() === date.getHours() && current_date.getMinutes() === date.getMinutes()) {
-        currentMapTime_elem.html(toHHMM(hours, minutes)+'<br>(current)');
+    currentMapTime_elem.html(toHHMM(hours, minutes));
+    if (toParisHour(current_date,current_date.getHours()) === hours && current_date.getMinutes() === minutes) {
+        currentMapTime_elem.css('color','black');
     } else {
-        currentMapTime_elem.html(toHHMM(hours, minutes)+'<br>(selected)');
+        currentMapTime_elem.css('color','gray');
     }
-    currentMapDay_elem.html(current_date.toDateString()+'<br>(today)');
+    var options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    currentMapDay_elem.html(current_date.toLocaleDateString('fr-FR', options).replace(/(^|\s)[a-z]/g, function(l){ return l.toUpperCase() }).slice(0,-5));
+    currentMapDayMobile_elem.html("&nbsp;("+current_date.toDateString().slice(4,-5)+")");
 };
 
 function lightToDark(map, dark_map) { 
@@ -59,14 +63,19 @@ function lightToDark(map, dark_map) {
 function darkToLight(map, dark_map) {
     map.setCenter(dark_map.getCenter());
     map.setZoom(dark_map.getZoom());
-    sunriseTime_elem.css("color","black");
-    sunsetTime_elem.css("color","black");
-    currentMapTime_elem.css("color","black");
     map_elem.style.height = '100%';
 };
 
 function toSeconds(wTime) {
-    return wTime.getHours()* 60 * 60 + wTime.getMinutes() * 60 + wTime.getSeconds();
+    return toParisHour(wTime,wTime.getHours())* 60 * 60 + wTime.getMinutes() * 60 + wTime.getSeconds();
+};
+
+function toParisHour(date, there_hour) {
+    var offset = date.getTimezoneOffset()/60;
+    if (offset != -2) {
+        return (there_hour + offset + 2) % 24;
+    }
+    return there_hour;
 };
 
 function toHHMM(hours, minutes) {

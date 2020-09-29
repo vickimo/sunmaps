@@ -1,7 +1,7 @@
 function loadWeatherJSON(callback) {   
     var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'geo_json/weather.json', true); // Replace 'my_data' with the path to your file
+    xobj.open('GET', '/retrieveWeather', true); 
     xobj.onreadystatechange = function () {
           if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -18,15 +18,18 @@ function setWeather(weather_dt, time) {
         for (i = 0; i < weather_dt.length; i++) {
             if (weather_dt[i] >= time) {
                 time_index = (i-1 > 0) ? i-1 : 0;
-                var icon_link = 'http://openweathermap.org/img/wn/'+ all_weather[time_index].icon + '@2x.png';
-                var weather_at_time = all_weather[time_index];
-                $('#weather-icon img').attr('src', icon_link);
-                $('#weather-description').text(weather_at_time.description);
-                $('#weather-rain').text(weather_at_time.clouds+"%");
-                $('#weather-temp').text(Math.round(weather_at_time.temperature-273.15)+"°C");
+                setWeatherUI(all_weather[time_index]);
                 return;
             }
         }
         
     }
+};
+
+function setWeatherUI(weatherData) {
+    var icon_link = 'https://openweathermap.org/img/wn/'+ weatherData.icon + '@2x.png';
+    $('.weather-icon img').attr('src', icon_link);
+    $('.weather-description').text(weatherData.description.replace(/(^|\s)[a-z]/g, function(l){ return l.toUpperCase() }));
+    $('.weather-rain').text(weatherData.clouds+"%");
+    $('.weather-temp').text(Math.round(weatherData.temperature-273.15)+"°C");
 };

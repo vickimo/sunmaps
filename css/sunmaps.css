@@ -11,10 +11,30 @@ html, body {
   height:0%;
 }
 
-.map-overlay {
+.legend {
+  background-color: #fff;
+  opacity:85%;
+  border-radius: 3px;
+  bottom: 35px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.legend div span {
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  margin-right: 5px;
+  width: 10px;
+}
+
+.map-overlay-desktop {
     position: absolute;
-    width: 360px;
-    height: 260px;
+    width: 375px;
+    height: 280px;
     top: 10px;
     left: 10px;
 }
@@ -24,17 +44,19 @@ html, body {
   width: 100%;
   height: 100%;
   opacity:95%;
+  padding-bottom: 5px;
 }
 
-#weather-icon, #settime, #setday {
+.weather-icon, .settime, .setday {
     text-align: center;
     vertical-align: middle;
     display:table-cell;
 }
-#settime, #setday {
+.settime, .setday, .top10 {
   cursor: pointer;
+  color: black;
 }
-#weather-icon img {
+.weather-icon img {
   width: 80px;
 }
 #sun-times, #weather-info {
@@ -43,23 +65,23 @@ html, body {
   vertical-align: middle;
 }
 
-#sunrise_image, #sunset_image, #highsun_image, #rain_image, #temperature_image,
-#sunrise_image img, #sunset_image img, #highsun_image img, #temperature_image img,
-#rain_image img {
+#sunrise_image, #sunset_image, #highsun_image, .rain_image, .temperature_image,
+#sunrise_image img, #sunset_image img, #highsun_image img, .temperature_image img,
+.rain_image img {
   float:left;
 }
 #sunrise_image img, #sunset_image img, #highsun_image img {
   width:25px;
 }
-#temperature_image img {
+.temperature_image img {
   height:20px;
   padding-left:10px;
 }
-#rain_image img {
+.rain_image img {
   height: 15px;
   padding-top: 5px;
 }
-#sunrise, #sunset, #high_sun_time, #weather-rain {
+#sunrise, #sunset, #high_sun_time {
   text-align: left;
   vertical-align: middle;
   display: table-cell;
@@ -71,19 +93,21 @@ html, body {
     vertical-align: middle;
 }
 
-#geocoder {
+.geocoder {
   float:left;
   padding-left: 5%;
 }
-#geolocate {
+.geolocate {
   float:left;
   display:block;
   width:30px;
 }
 
-.five {
-  width:5%;
+.twentyfive, .thirty, .thirtythree, .fifty, .seventy, .eighty {
+  display:table-cell;
+  vertical-align: middle;
 }
+
 .twentyfive {
   width:25%;
 }
@@ -103,30 +127,29 @@ html, body {
   width:80%;
 }
 
-#row1-3 {
+.row {
+  display:table;
+  width:100%;
+}
+.row1-3 {
   height:33.3%;
-  display:table;
-  width:100%;
 }
-#row1-6 {
+.row1-6 {
   height:16.7%;
-  display:table;
-  width:100%;
 }
-#row1-4 {
+.row1-4 {
   height:25%;
-  display:table;
-  width:100%;
 }
-#row1-8 {
+.row1-8 {
   height:12.5%;
-  display:table;
-  width:100%;
+}
+.row3-8 {
+  height:37.5%;
 }
 
 /* Sun slider, Chrome & Firefox */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-    #time {
+    .time {
       -webkit-appearance: none;
       background-color: #fcd33b;
       cursor: pointer;
@@ -134,18 +157,19 @@ html, body {
       top:8.3%;
       position:absolute;
       left:-0.5%; /*correct the track depassing the box*/
-      height:1.5px; /* height of track */
+      height:2px; /* height of track */
     }
-    #time:focus {
+    .time:focus {
        outline: none;
     }
 
-    #time::-moz-focus-outer {
+    .time::-moz-focus-outer {
         border: 0;
         }
 
-    #time::-webkit-slider-thumb {
+    .time::-webkit-slider-thumb {
       -webkit-appearance: none;
+      background: transparent;
       background-image: url(../svg/sun_filled_yellow.svg);
       background-size:35px;
       height: 35px;
@@ -156,11 +180,12 @@ html, body {
       border-color:transparent;
     }
 
-    #time::-moz-range-thumb {
+    .time::-moz-range-thumb {
       height: 35px;
       width: 35px;
       -moz-appearance: none;
       cursor: pointer;
+      background:transparent;
       background-color: #fcd33b;
       mask-size:35px;
       mask-position:bottom;
@@ -171,13 +196,14 @@ html, body {
       border-color:transparent;
     }
     
-    #time::-webkit-slider-runnable-track {
+    .time::-webkit-slider-runnable-track {
       -webkit-appearance: none;
       padding-top:2px; /* chrome middle aligns the yellow sun */
       color: #fcd33b;
     }
-}
-/* Sun slider, IE */
-input[type="range"]::-ms-fill-lower, input[type="range"]::-ms-fill-upper {
-  background-color: #fcd33b; 
+
+    .time::-ms-track { /* should come after -webkit- */
+      border-color: transparent;
+      color: lightGray;
+    }
 }

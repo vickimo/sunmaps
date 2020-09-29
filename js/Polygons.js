@@ -8,10 +8,39 @@ function showBatiDetailsPopup(pt_longlat, pt_xy) {
         features = map.queryRenderedFeatures([point.x, point.y], {layers:['batiterrasse-fill']});
     }
     if (features.length) {
+        var hoursOpen = formatHours(features[0].properties.hours);
         popup.setLngLat(pt_longlat)
-        .setHTML(features[0].properties.name + "<br>rating:" + features[0].properties.rating + "/5<br>price:" + features[0].properties.price + "<br>" + features[0].properties.address + "<br>" + features[0].properties.phone + "<br>" + features[0].properties.website + "<br>" + features[0].properties.hours)
+        .setHTML("<b>"+features[0].properties.name+"</b>" + formatRating(features[0].properties.rating) + 
+            formatPrice(features[0].properties.price) + "<br>" + features[0].properties.address + 
+            "<br>" + features[0].properties.phone + "<br>" + hoursOpen + features[0].properties.website)
         .addTo(map);
     };
+};
+
+function formatRating(r) {
+    var rating = eval(r);
+    if (!isNaN(rating)) {
+        return "<br>Note: " + r + "/5";
+    };
+    return "";
+};
+
+function formatPrice(p) {
+    if (p.length)
+        return "<br>Prix: " + p;
+    return "";
+};
+
+function formatHours(h) {
+    var hours = eval(h);
+    if (hours != null && hours.length) {
+        var allHours = "";
+        for (i = 0; i < hours.length; i++) {
+            allHours += hours[i]["days"] + ": " + hours[i]["times"] + "<br>";
+        };
+        return allHours;
+    };
+    return "";
 };
 
 function highlightBuilding(pt_longlat, pt_xy) {
@@ -70,3 +99,4 @@ function loadJSON(callback) {
     };
     xobj.send(null);  
  };
+
